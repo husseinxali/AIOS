@@ -4,5 +4,7 @@ account_id = "9abc1f6ef1ac5abfd9fb6fd8911d14ee"
 workers_dev = true
 compatibility_date = "2025-06-20"
 
+main = "packages/server/dist/server.js"
+
 [build]
 command = "npm run build"
