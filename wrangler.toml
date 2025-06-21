@@ -1,6 +1,6 @@
 name = "aiostreams"
 type = "javascript"
-main = "dist/worker.js"
+main = "packages/server/src/index.ts"
 compatibility_date = "2025-06-21"
 workers_dev = true
 account_id = "9abc1f6ef1ac5abfd9fb6fd8911d14ee"
