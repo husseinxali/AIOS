@@ -9,23 +9,26 @@ on:
 jobs:
   release:
     name: release
-    if: ${{ github.ref == 'refs/heads/main' }}
+    if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     permissions:
-      actions: write
       contents: write
       pull-requests: write
+      actions: write
     steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
       - name: Release
         id: release
-        uses: google-github-actions/release-please-action@v4
+        uses: googleapis/release-please-action@v4
         with:
-          token: ${{ secrets.RELEASE_PLEASE_TOKEN }}
+          token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Trigger Docker Image Publish
-        if: ${{ steps.release.outputs['release_created'] }}
+        if: steps.release.outputs.release_created == 'true'
         env:
-          GH_TOKEN: ${{ github.token }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           TAG_NAME: ${{ steps.release.outputs.tag_name }}
         run: |
-          gh workflow run --repo ${GITHUB_REPOSITORY} deploy-docker.yml -f ref=${TAG_NAME}
+          gh workflow run deploy-docker.yml --ref $TAG_NAME
